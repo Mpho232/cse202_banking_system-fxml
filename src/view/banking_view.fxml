@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane" prefHeight="760.0" prefWidth="1120.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.BankingFxmlController">
+
+    <!-- Top Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #1B365D; -fx-padding: 12 18;">
+            <Label text="CSE202 BANKING SYSTEM" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
+            <Label fx:id="roleBadgeLabel" text="Not Logged In"
+                   style="-fx-text-fill: #90CAF9; -fx-font-size: 12px; -fx-padding: 3 8; -fx-background-color: #26487A; -fx-background-radius: 4;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="clearBtn" text="Clear" onAction="#handleClear"
+                    style="-fx-background-color: #E2E8F0; -fx-text-fill: #1B365D; -fx-font-weight: bold;" />
+            <Button fx:id="logoutBtn" text="Logout" onAction="#handleLogout" visible="false" managed="false"
+                    style="-fx-background-color: #C53030; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+
+    <!-- Center Dynamic Views -->
+    <center>
+        <VBox spacing="16" style="-fx-padding: 18; -fx-background-color: #F4F7FA;">
+
+            <!-- 1. LOGIN VIEW -->
+            <VBox fx:id="loginPane" spacing="18" alignment="CENTER" VBox.vgrow="ALWAYS">
+                <Label text="Select Role &amp; Sign In" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+
+                <HBox spacing="24" alignment="CENTER">
+                    <!-- Admin Login Card -->
+                    <VBox spacing="10" prefWidth="360" style="-fx-background-color: white; -fx-padding: 18; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label text="Admin Login" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+                        <Label text="Username" />
+                        <TextField fx:id="adminLoginUserField" promptText="e.g. admin" />
+                        <Label text="4-Digit PIN" />
+                        <PasswordField fx:id="adminLoginPinField" promptText="4-digit PIN" />
+                        <Button text="Login as Admin" onAction="#handleAdminLogin" maxWidth="Infinity"
+                                style="-fx-background-color: #1B365D; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </VBox>
+
+                    <!-- Customer Login Card -->
+                    <VBox spacing="10" prefWidth="360" style="-fx-background-color: white; -fx-padding: 18; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label text="Customer Login" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2A6F97;" />
+                        <Label text="Customer ID" />
+                        <TextField fx:id="customerLoginIdField" promptText="e.g. C0001" />
+                        <Label text="4-Digit PIN" />
+                        <PasswordField fx:id="customerLoginPinField" promptText="4-digit PIN" />
+                        <Button text="Login as Customer" onAction="#handleCustomerLogin" maxWidth="Infinity"
+                                style="-fx-background-color: #2A6F97; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- 2. ADMIN WORKSPACE -->
+            <VBox fx:id="adminPane" spacing="14" visible="false" managed="false" VBox.vgrow="ALWAYS">
+                <HBox spacing="16" VBox.vgrow="SOMETIMES">
+                    <!-- Register New Customer -->
+                    <VBox spacing="8" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label text="Register New Customer (Admin Only)" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+                        <GridPane hgap="8" vgap="8">
+                            <columnConstraints>
+                                <ColumnConstraints prefWidth="115" />
+                                <ColumnConstraints hgrow="ALWAYS" />
+                            </columnConstraints>
+                            <Label text="Customer ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                            <TextField fx:id="nextCustomerIdField" editable="false" promptText="C0001" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                            <Label text="First Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                            <TextField fx:id="regFirstNameField" promptText="First name" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                            <Label text="Surname:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                            <TextField fx:id="regSurnameField" promptText="Surname" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                            <Label text="Address:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                            <TextField fx:id="regAddressField" promptText="Residential address" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                            <Label text="4-Digit PIN:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                            <PasswordField fx:id="regPinField" promptText="4 digits (e.g. 1234)" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                        </GridPane>
+                        <Button text="Register Customer" onAction="#handleRegisterCustomer"
+                                style="-fx-background-color: #1B365D; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </VBox>
+
+                    <!-- Open Account for Customer -->
+                    <VBox spacing="8" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label text="Open Account (267XXXXXX)" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2A6F97;" />
+                        <GridPane hgap="8" vgap="8">
+                            <columnConstraints>
+                                <ColumnConstraints prefWidth="125" />
+                                <ColumnConstraints hgrow="ALWAYS" />
+                            </columnConstraints>
+                            <Label text="Customer ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                            <TextField fx:id="openAccCustomerIdField" promptText="e.g. C0001" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                            <Label text="Account Type:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                            <ComboBox fx:id="accountTypeCombo" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                            <Label text="Branch:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                            <TextField fx:id="branchField" promptText="e.g. Gaborone Main" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                            <Label text="Initial Deposit:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                            <TextField fx:id="initialDepositField" promptText="Amount in BWP" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                            <Label text="Company Name:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                            <TextField fx:id="companyNameField" promptText="Cheque account employer" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+                            <Label text="Company Address:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                            <TextField fx:id="companyAddressField" promptText="Employer address" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                        </GridPane>
+                        <Button text="Open Account" onAction="#handleOpenAccount"
+                                style="-fx-background-color: #2A6F97; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </VBox>
+
+                    <!-- Register New Admin -->
+                    <VBox spacing="8" prefWidth="250" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label text="Register New Admin" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+                        <Label text="Admin Username" />
+                        <TextField fx:id="newAdminUserField" promptText="New admin username" />
+                        <Label text="4-Digit PIN" />
+                        <PasswordField fx:id="newAdminPinField" promptText="4 digits" />
+                        <Button text="Create Admin" onAction="#handleRegisterAdmin" maxWidth="Infinity"
+                                style="-fx-background-color: #2C5282; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </VBox>
+                </HBox>
+
+                <!-- Admin Customer + Account Types + Balances Table -->
+                <VBox spacing="8" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="All Customers, Account Types &amp; Balances" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="Refresh Overview" onAction="#handleRefreshAdminOverview" />
+                    </HBox>
+                    <TableView fx:id="adminCustomerTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colCustomerId" text="Customer ID" prefWidth="110" />
+                            <TableColumn fx:id="colCustomerName" text="Full Name" prefWidth="190" />
+                            <TableColumn fx:id="colCustomerAddress" text="Address" prefWidth="200" />
+                            <TableColumn fx:id="colAccountTypes" text="Accounts &amp; Types" prefWidth="360" />
+                            <TableColumn fx:id="colTotalBalance" text="Total Balance (BWP)" prefWidth="160" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+
+            <!-- 3. CUSTOMER WORKSPACE -->
+            <VBox fx:id="customerPane" spacing="14" visible="false" managed="false" VBox.vgrow="ALWAYS">
+                <HBox spacing="16" VBox.vgrow="ALWAYS">
+                    <!-- Accounts & Balances -->
+                    <VBox spacing="10" prefWidth="430" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label fx:id="customerWelcomeLabel" text="Welcome Customer" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+                        <Label text="Your Accounts &amp; Balances:" style="-fx-font-weight: bold;" />
+                        <ListView fx:id="customerAccountsListView" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="selectedAccountBalanceLabel" text="Selected Balance: BWP 0.00"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2A6F97;" />
+                    </VBox>
+
+                    <!-- Transactions & History -->
+                    <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 8; -fx-border-color: #D1DCE5; -fx-border-radius: 8;">
+                        <Label text="Transact on Selected Account" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1B365D;" />
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Amount (BWP):" />
+                            <TextField fx:id="txAmountField" promptText="0.00" prefWidth="150" />
+                            <Button text="Deposit" onAction="#handleDeposit"
+                                    style="-fx-background-color: #2F855A; -fx-text-fill: white; -fx-font-weight: bold;" />
+                            <Button text="Withdraw" onAction="#handleWithdraw"
+                                    style="-fx-background-color: #C53030; -fx-text-fill: white; -fx-font-weight: bold;" />
+                            <Button text="Apply Interest" onAction="#handleApplyInterest"
+                                    style="-fx-background-color: #2A6F97; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        </HBox>
+
+                        <Label text="Transaction History:" style="-fx-font-weight: bold;" />
+                        <ListView fx:id="transactionHistoryListView" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox style="-fx-background-color: #E2E8F0; -fx-padding: 6 16;">
+            <Label fx:id="statusLabel" text="Ready." style="-fx-text-fill: #334155; -fx-font-size: 11.5px;" />
+        </HBox>
+    </bottom>
+
+</BorderPane>
